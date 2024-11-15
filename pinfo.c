@@ -13,11 +13,17 @@
 #include <unistd.h>
 #include <errno.h>
 
+/*
+* Process control system calls manage tasks on the running system. 
+* This function print out a list of process.
+* parameter - argc argument count
+* parameter - argv[] argument array address
+*/
 int main(int argc, char* argv[]) {
     pid_t pid;
 
     if(argc == 2) {
-        pid = atoi(argv[1]);
+        pid = atoi(argv[1]); //gets the process identifier
     } else {
         pid = getpid(); //use current proccess ID
     }
@@ -25,20 +31,20 @@ int main(int argc, char* argv[]) {
     errno = 0;
     int priority = getpriority(PRIO_PROCESS, pid);
     if (errno != 0) {
-        perror("Error getting priority.");
+        perror("Error getting priority."); // error message
         return 1;
     } else {
-        printf("Process ID: %d.\n", pid);
-        printf("Priority: %d.\n", priority);
+        printf("Process ID: %d.\n", pid); //gets pid
+        printf("Priority: %d.\n", priority); //get priority
     }
 
-    int scheduler = sched_getscheduler(pid);
+    int scheduler = sched_getscheduler(pid); //get scheduler
     if (scheduler == -1) {   
-        perror("Error getting scheduler.");
+        perror("Error getting scheduler."); //error message
         return 1;
     }
 
-    const char* scheduler_name;
+    const char* scheduler_name; //convert scheduler int to the String
     switch (scheduler) {
         case SCHED_OTHER:
             scheduler_name = "SCHED_OTHER";
@@ -62,7 +68,7 @@ int main(int argc, char* argv[]) {
             scheduler_name = "UNKNOWN";
     }
 
-    printf("Scheduler: %s.\n", scheduler_name);
+    printf("Scheduler: %s.\n", scheduler_name); //print out the scheduler name in String
 
     return 0;
 }

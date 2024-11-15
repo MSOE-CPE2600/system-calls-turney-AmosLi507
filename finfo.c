@@ -11,27 +11,34 @@
 #include <unistd.h>
 #include <time.h>
 
-void print_permissions(mode_t mode);
-void print_file_type(mode_t mode);
+void print_permissions(mode_t mode); //print the permission in string form
+void print_file_type(mode_t mode); //print the file type in string form
 
+/*
+* Prints out the information of the file
+* parameter - argc argument count
+* parameter - argv[] argument array address
+*/
 int main(int argc, char* argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Wrong input format.");
+        fprintf(stderr, "Wrong input format."); //file name must be specified via the command line
         return 1;
     }
 
     struct stat file_info;
     
     if (stat(argv[1], &file_info) == -1) {
-        perror("the file name is not found.");
+        perror("the file name is not found."); //wrong file name
         return 1;
     }
 
-    print_file_type(file_info.st_mode);
+    //prints the informations
+    print_file_type(file_info.st_mode); 
     print_permissions(file_info.st_mode);
     printf("User identifier is %d.\n", file_info.st_uid);
-    printf("Size is %ld bytes.\n", file_info.st_size);
+    printf("Size is %ld bytes.\n", file_info.st_size); 
 
+    //gets and prints the time
     char time[64];
     struct tm *time_info = localtime(&file_info.st_mtime);
     strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", time_info);
@@ -39,6 +46,8 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
+//print the permission in string form
+//Parameter: mode: the mode of the file
 void print_permissions(mode_t mode) {
     char perms[11] = "----------";
 
@@ -60,6 +69,8 @@ void print_permissions(mode_t mode) {
     printf("Permissions: %s\n", perms);
 }
 
+//print the file type in string form
+//Parameter: mode: the mode of the file
 void print_file_type(mode_t mode) {
     if (S_ISREG(mode)) {
         printf("File type: Regular file\n");

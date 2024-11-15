@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
         printf("Current time of day is %lld nanoseconds since Jan 1, 1970.\n", (long long)(ts.tv_sec *1e9 + ts.tv_nsec));
         printf("%lld is the number of nanoseconds into the current second.\n", (long long)(ts.tv_nsec));
     } else {
-        perror("Failed to get time.");
+        perror("Failed to get time."); //error message
     }
 
     //hostname
@@ -35,12 +35,12 @@ int main(int argc, char* argv[]) {
     if (gethostname(hostname, sizeof(hostname)) == 0 && strlen(hostname) > 0) {
         printf("Network name is %s.\n", hostname);
     } else {
-        perror("Failed to get hostname.");
+        perror("Failed to get hostname."); //error message
     }
 
     //OS information
     struct utsname uts;
-    if (uname(&uts) == 0) {
+    if (uname(&uts) == 0) { //displays the message for each cases
         if (strlen(uts.sysname) > 0) {
             printf("Operating system name: %s.\n", uts.sysname);
         } 
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
             printf("Hardware type: %s.\n", uts.machine);
         }
     } else {
-        perror("Failed to get OS information.");
+        perror("Failed to get OS information."); //error message
     }
 
     //CPU
@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
     if(nprocs > 0) {
         printf("Number of CPUs: %d.\n", nprocs);
     } else {
-        perror("Failed to get # of CPUs.");
+        perror("Failed to get # of CPUs."); //error message
     }    
 
     //memory information
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
         printf("Total physical memory: %lu bytes.\n", info.totalram * info.mem_unit);
         printf("Free memory: %lu bytes.\n", info.freeram * info.mem_unit);
     } else {
-        perror("Failed to get memory information.");
+        perror("Failed to get memory information."); //error message
     }
 
     return 0;
